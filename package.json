@@ -1,0 +1,29 @@
+{
+  "name": "team_profile_generator",
+  "description": "A Node.js command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person with integrated unit testing.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s-cabrera/Team_Profile_Generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependecies": {
+    "jest": "^24.9.0"
+  },
+  "bugs": {
+    "url": "https://github.com/s-cabrera/Team_Profile_Generator/issues"
+  },
+  "homepage": "https://github.com/s-cabrera/Team_Profile_Generator#readme",
+  "dependencies": {
+    "inquirer": "^8.1.2",
+    "jest": "^27.0.6"
+  }
+}
