@@ -47,7 +47,7 @@ function generateHTML(){
 }
 
 function generateEmployeeHTML(employee){
-    console.log(employee);
+    //console.log(employee);
     var listItem, icon;
     switch(employee.getRole()){
         case 'Manager':
@@ -155,15 +155,15 @@ const InternPrompts = [
 
 const addEngineer = async() => {
     let res = await inquirer.prompt(EngineerPrompts)
-    console.log(res);
     let engineer = new Engineer(res.name, res.id, res.email, res.github);
+    console.log(`\nEngineer ${engineer.getName()} was added!\n`);
     return engineer;
 }
 
 const addIntern = async() => {
     let res = await inquirer.prompt(InternPrompts)
-    console.log(res);
     let intern = new Intern(res.name, res.id, res.email, res.school);
+    console.log(`\nIntern: ${intern.getName()} was added!\n`);
     return intern;
 }
 
@@ -172,13 +172,11 @@ const menu = async() => {
     switch(res.menu){
         case 'Engineer':
             const engineer = await addEngineer();
-            console.log(`Add engineer ${engineer}`); 
             employees.push(engineer);
             flag = true;
         break;
         case 'Intern':
             const intern = await addIntern(); 
-            console.log(`Add intern ${intern}`);
             employees.push(intern);
             flag =  true;
         break;
@@ -197,17 +195,21 @@ const login = async function(){
     await inquirer.prompt(managerLogin)
     .then((res) => {
         //CHECK FOR MANAGER AUTHENICATION
-        console.log(res);
         if(validator.validate(res.email)){
             let manager = new Manager(res.name, res.id, res.email, res.office);
             employees.push(manager);
+            console.log(`\nManager ${manager.getName()} was added!\n`);
         }
         else{
-            console.log("An invalid email was entered");
+            console.log("An invalid email was entered. Fix it above.");
         }
     })
     await menuCall();
+    console.log("\nGenerating HTML file")
+    console.log("\t...\n\t...\n\t...");
     generateHTML();
+    console.log("File generated!");
+    console.log("Open the index.html file in 'dist' folder to view your team's profiles");
 }
 
 const menuCall = async function(){

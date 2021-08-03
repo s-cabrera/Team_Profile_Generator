@@ -17,11 +17,9 @@ A Node.js command-line application that takes in information about employees on 
 
 
 ### Technology:
-	* [Inquirer package](https://www.npmjs.com/package/inquirer).
+* [Inquirer package](https://www.npmjs.com/package/inquirer) for user input.
 
-	* [Jest package](https://www.npmjs.com/package/jest) for a suite of unit tests.
-
-  * The application has `Employee`, `Manager`, `Engineer`, and `Intern` classes.
+* [Jest package](https://www.npmjs.com/package/jest) for a suite of unit tests.
 
 
 ### Installation 
@@ -32,8 +30,10 @@ npm install
 ```
 
 ### Usage
-Run command: node index.js
-
+To use the application run, the following command
+```bash
+ node index.js
+```
 
 ### Tests
 
@@ -44,7 +44,7 @@ To run tests, run the following command:
 
 ### Walkthrough  
 
-* This [walkthrough](https:) includes: 
+* This [walkthrough](https://drive.google.com/file/d/1M26Xh1uqQ849j9IWr9FJs83c-xF7Tva8/view) includes: 
   
   * It demonstrates the functionality of the Team Profile Generator.
 
@@ -59,14 +59,6 @@ To run tests, run the following command:
 
 ### Questions
 If you have any questions about the repo, open an issue or contact me directly at stephanie.cabrera.333@gmail.com. You can find more of my work at my [Github](https://github.com/s-cabrera/).
-
-You are required to submit the following for review:
-
-* A walkthrough video that demonstrates the functionality of the application and passing tests.
-
-* A sample HTML file generated using your application.
-
-* The URL of the GitHub repository, with a unique name and a readme describing the project.
 
 ---
 © 2021 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
