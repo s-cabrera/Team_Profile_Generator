@@ -1,8 +1,9 @@
 // Node libraries
 const inquirer = require('inquirer');
 const fs = require('fs');
-
-// Imports
+const validator = require('email-validator');
+ 
+// Imported Employee types
 const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
@@ -11,7 +12,8 @@ var employees = [];
 
 function generateHTML(){
     let html = 
-    `<!DOCTYPE html>\n
+    `
+    <!DOCTYPE html>\n
     <html lang="en">\n
     <head>\n
         \t<meta http-equiv="content-type" content="text-html; charset=utf-8">\n
@@ -45,23 +47,28 @@ function generateHTML(){
 }
 
 function generateEmployeeHTML(employee){
-    var listItem;
+    console.log(employee);
+    var listItem, icon;
     switch(employee.getRole()){
         case 'Manager':
             listItem = `Office: ${employee.office}`; 
+            icon = 'fa-mug-hot';
         break;
         
         case 'Engineer':
             listItem = `Github: <a href="https://github.com/${employee.getGithub()}">
             https://github.com/${employee.getGithub()}</a>`;
+            icon = 'fa-glasses';
         break;
         
         case 'Intern': 
-            listItem = `Office: ${employee.getSchool()}`;
+            listItem = `School: ${employee.getSchool()}`;
+            icon = 'fa-user-graduate';
         break;
 
         default:
             listItem = '';
+            icon = '';
             console.log("Employee type is invalid. HTML will not be generated");
         break;
     }
@@ -71,7 +78,7 @@ function generateEmployeeHTML(employee){
         \t\t\t\t<div class="card-header bg-primary text-white p-3">\n
             \t\t\t\t\t<h5 class="card-title ">${employee.getName()}</h5>\n
             \t\t\t\t\t<div class="card-subtitle mb-2">\n
-                \t\t\t\t\t\t<i class="d-inline fas fa-mug-hot"></i>\n
+                \t\t\t\t\t\t<i class="d-inline fas ${icon}"></i>\n
                 \t\t\t\t\t\t<h6 class="d-inline">${employee.getRole()}</h6>\n
             \t\t\t\t\t</div>\n
         \t\t\t\t</div>\n
@@ -100,9 +107,14 @@ const employee_prompts = [
         name: 'id'
     },
     {
-        type: 'email',
+        type: 'input',
         message: "Enter email: ",
-        name: 'email'
+        name: 'email',
+        validate: function(value){if(validator.validate(value)){
+                return true
+            }
+            else{return 'Invalid Email! Try again! '}
+        }
     }
 ]
 
@@ -115,7 +127,7 @@ const managerLogin = [
     }
 ];
 
-const menu = [    {
+const menuPrompts = [    {
     type: 'list',
     message: 'Which employee do you want to add? (Choose Finished if you are done adding employees to your team)',
     choices: ['Engineer', 'Intern', 'Finished'],
@@ -140,15 +152,65 @@ const InternPrompts = [
     }
 ];
 
-function login(){
-    inquirer.prompt(managerLogin)
-    .then((res)=> {
-        //CHECK FOR MANAGER AUTHENICATION
-        console.log(res);
-        let manager = new Manager(res.name, res.id, res.email, res.office);
-        employees.push(manager);
-        generateHTML()
-    })
+const addEngineer = async() => {
+    let res = await inquirer.prompt(EngineerPrompts)
+    console.log(res);
+    let engineer = new Engineer(res.name, res.id, res.email, res.github);
+    return engineer;
 }
 
-login()
+const addIntern = async() => {
+    let res = await inquirer.prompt(InternPrompts)
+    console.log(res);
+    let intern = new Intern(res.name, res.id, res.email, res.school);
+    return intern;
+}
+
+const menu = async() => {
+    const res = await inquirer.prompt(menuPrompts);
+    switch(res.menu){
+        case 'Engineer':
+            const engineer = await addEngineer();
+            console.log(`Add engineer ${engineer}`); 
+            employees.push(engineer);
+            flag = true;
+        break;
+        case 'Intern':
+            const intern = await addIntern(); 
+            console.log(`Add intern ${intern}`);
+            employees.push(intern);
+            flag =  true;
+        break;
+        case 'Finished':
+            flag = false;
+        break;
+        default:
+            console.log("Something went wrong. Try again");
+            flag =  true;
+        break;    
+    }
+    return flag;
+}
+
+const login = async function(){
+    await inquirer.prompt(managerLogin)
+    .then((res) => {
+        //CHECK FOR MANAGER AUTHENICATION
+        console.log(res);
+        if(validator.validate(res.email)){
+            let manager = new Manager(res.name, res.id, res.email, res.office);
+            employees.push(manager);
+        }
+        else{
+            console.log("An invalid email was entered");
+        }
+    })
+    await menuCall();
+    generateHTML();
+}
+
+const menuCall = async function(){
+    while(await menu()){};
+}
+
+login();
