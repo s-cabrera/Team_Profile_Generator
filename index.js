@@ -85,7 +85,8 @@ function generateEmployeeHTML(employee){
         \t\t\t\t<div class="card-body">\n
             \t\t\t\t\t<ul class="list-group list-group-flush">\n
                 \t\t\t\t\t\t<li class="list-group-item">ID: ${employee.getId()}</li>\n
-                \t\t\t\t\t\t<li class="list-group-item">Email: <a id="email" href="">${employee.getEmail()}</a></li>\n
+                \t\t\t\t\t\t<li class="list-group-item">Email: <a target="_blank" rel="noopener 
+                    noreferrer" href="mailto:${employee.getEmail()}">${employee.getEmail()}</a></li>\n
                 \t\t\t\t\t\t<li class="list-group-item">${listItem}</li>\n
             \t\t\t\t\t</ul>\n
         \t\t\t\t</div>\n
